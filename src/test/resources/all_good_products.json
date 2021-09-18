@@ -1,0 +1,13 @@
+{
+  "name": "My Store",
+  "products": [
+    {
+      "name": "Apple",
+      "price": "12.34"
+    },
+    {
+      "name": "Orange",
+      "price": "56.78"
+    }
+  ]
+}
