@@ -5,5 +5,5 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class Store(
     val name: String,
-    val products: List<Product>
+    @SkipBadListItemQualifier val products: List<Product>
 )

@@ -38,12 +38,14 @@ class SkipBadListItemJsonAdapter<T : Any> private constructor(
     companion object {
 
         val INSTANCE: Factory = Factory { type, annotations, moshi ->
-            if (annotations.isEmpty() && Types.getRawType(type) == List::class.java) {
-                val elementType = Types.collectionElementType(type, List::class.java)
-                SkipBadListItemJsonAdapter(moshi.adapter(elementType))
-            } else {
-                null
+            Types.nextAnnotations(annotations, SkipBadListItemQualifier::class.java) ?: return@Factory null
+            if (Types.getRawType(type) != List::class.java) {
+                throw IllegalArgumentException("Only lists can be annotated with @SkipBadListItemQualifier. Found: $type")
             }
+            val elementType = Types.collectionElementType(type, List::class.java)
+            SkipBadListItemJsonAdapter(
+                itemJsonAdapter = moshi.adapter(elementType)
+            )
         }
     }
 }
