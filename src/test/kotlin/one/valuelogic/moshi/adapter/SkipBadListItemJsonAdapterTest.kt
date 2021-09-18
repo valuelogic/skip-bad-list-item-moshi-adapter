@@ -2,6 +2,7 @@ package one.valuelogic.moshi.adapter
 
 import com.google.common.truth.Truth.assertThat
 import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.JsonDataException
 import com.squareup.moshi.Moshi
 import org.junit.Test
 
@@ -30,7 +31,8 @@ class SkipBadListItemJsonAdapterTest {
                         name = "Orange",
                         price = 56.78
                     )
-                )
+                ),
+                employees = emptyList()
             )
         )
     }
@@ -47,7 +49,8 @@ class SkipBadListItemJsonAdapterTest {
                         name = "Apple",
                         price = 12.34
                     )
-                )
+                ),
+                employees = emptyList()
             )
         )
     }
@@ -59,8 +62,43 @@ class SkipBadListItemJsonAdapterTest {
         assertThat(store).isEqualTo(
             Store(
                 name = "My Store",
-                products = emptyList()
+                products = emptyList(),
+                employees = emptyList()
             )
         )
+    }
+
+    @Test
+    fun `SHOULD return store with all employees WHEN all items are valid`() {
+        val json: String = loadFromResources("all_good_employees.json", javaClass.classLoader)
+        val store: Store? = adapter.fromJson(json)
+        assertThat(store).isEqualTo(
+            Store(
+                name = "My Store",
+                products = emptyList(),
+                employees = listOf(
+                    Employee(
+                        name = "John",
+                        id = 123
+                    ),
+                    Employee(
+                        name = "Jane",
+                        id = 456
+                    )
+                )
+            )
+        )
+    }
+
+    @Test(expected = JsonDataException::class)
+    fun `SHOULD throw exception WHEN some employee items are invalid`() {
+        val json = loadFromResources("some_bad_employees.json", javaClass.classLoader)
+        adapter.fromJson(json)
+    }
+
+    @Test(expected = JsonDataException::class)
+    fun `SHOULD throw exception WHEN all employee items are invalid`() {
+        val json = loadFromResources("all_bad_employees.json", javaClass.classLoader)
+        adapter.fromJson(json)
     }
 }

@@ -3,8 +3,7 @@ package one.valuelogic.moshi.adapter
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class Store(
+data class Employee(
     val name: String,
-    @SkipBadListItemQualifier val products: List<Product>,
-    val employees: List<Employee>
+    val id: Int
 )

@@ -1,0 +1,17 @@
+{
+  "name": "My Store",
+  "products": [],
+  "employees": [
+    {
+      "name": "John"
+    },
+    {
+      "id": 123
+    },
+    {
+      "name": "Jane",
+      "id": "not a number"
+    },
+    {}
+  ]
+}
