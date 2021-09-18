@@ -9,6 +9,7 @@ class SkipBadListItemJsonAdapterTest {
 
     private val adapter: JsonAdapter<Store> = Moshi
         .Builder()
+        .add(SkipBadListItemJsonAdapter.INSTANCE)
         .build()
         .adapter(Store::class.java)
 
